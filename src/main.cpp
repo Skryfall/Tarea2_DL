@@ -1,6 +1,9 @@
 #include <iostream>
 #include <QApplication>
 #include "ui/nrzi.h"
+#include "logic/Converter.h"
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
 

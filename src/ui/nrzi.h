@@ -2,6 +2,7 @@
 #define NRZI_H
 
 #include <QMainWindow>
+#include "../logic/Converter.h"
 
 namespace Ui {
 class nrzi;
@@ -22,9 +23,11 @@ public slots:
 private:
     Ui::nrzi *ui;
     static nrzi* nrziWindow;
+    Converter* converter = Converter::getInstance();
 
 private slots:
     void on_toHamming_clicked();
+    void on_readyButton_clicked();
 };
 
 #endif // NRZI_H
