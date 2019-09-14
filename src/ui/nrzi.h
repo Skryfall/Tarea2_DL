@@ -2,6 +2,8 @@
 #define NRZI_H
 
 #include <QMainWindow>
+#include <QPainter>
+#include <QLabel>
 #include "../logic/Converter.h"
 
 namespace Ui {
@@ -17,6 +19,8 @@ public:
     ~nrzi();
     static nrzi* getInstance();
 
+    virtual void paintEvent(QPaintEvent *event);
+
 public slots:
     void toHammingWindow();
 
@@ -24,6 +28,10 @@ private:
     Ui::nrzi *ui;
     static nrzi* nrziWindow;
     Converter* converter = Converter::getInstance();
+    int state = 0;
+    char* bin;
+    int binArray[12];
+    QLabel* bitArray[12];
 
 private slots:
     void on_toHamming_clicked();

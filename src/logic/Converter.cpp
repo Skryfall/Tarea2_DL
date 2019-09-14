@@ -14,7 +14,7 @@ Converter* Converter::getInstance() {
     return converter;
 }
 
-string Converter::hexABin(char *hex, char *res) {
+char* Converter::hexABin(char *hex, char *res) {
     int cont=0;
     for (int i=0; i<3;i++)
     {
@@ -115,11 +115,10 @@ string Converter::hexABin(char *hex, char *res) {
             res[cont+3]='1';
         }
         if (hex[i]!='0'&&hex[i]!='1'&&hex[i]!='2'&&hex[i]!='3'&&hex[i]!='4'&&hex[i]!='5'&&hex[i]!='6'&&hex[i]!='7'&&hex[i]!='8'&&hex[i]!='9'&&hex[i]!='A'&&hex[i]!='B'&&hex[i]!='C'&&hex[i]!='D'&&hex[i]!='E'&&hex[i]!='F'){
-            return "";}
+            return const_cast<char *>("");}
         cont=cont+4;
     }
-    string rbin(res);
-    return rbin;
+    return res;
 }
 
 bool Converter::hex3Dig(string ent) {
