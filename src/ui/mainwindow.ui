@@ -29,10 +29,10 @@
     <property name="columnCount">
      <number>18</number>
     </property>
-    <attribute name="horizontalHeaderMinimumSectionSize">
-     <number>50</number>
-    </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>57</number>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
      <number>50</number>
     </attribute>
     <row/>
@@ -71,7 +71,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>101010110001</string>
+     <string/>
     </property>
     <property name="placeholderText">
      <string>12 bits</string>
@@ -106,7 +106,7 @@
      <number>18</number>
     </property>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>50</number>
+     <number>57</number>
     </attribute>
     <row/>
     <row/>
@@ -139,7 +139,7 @@
      <rect>
       <x>40</x>
       <y>370</y>
-      <width>200</width>
+      <width>231</width>
       <height>25</height>
      </rect>
     </property>
@@ -193,12 +193,25 @@
      <rect>
       <x>400</x>
       <y>10</y>
-      <width>100</width>
+      <width>111</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pariedad par</string>
+     <string>Paridad par</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="returnToNRZI">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>610</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Volver</string>
     </property>
    </widget>
   </widget>
@@ -208,9 +221,15 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuHamming">
+    <property name="title">
+     <string>Hamming</string>
+    </property>
+   </widget>
+   <addaction name="menuHamming"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

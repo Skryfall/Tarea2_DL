@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="toHamming">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>330</y>
+      <x>670</x>
+      <y>310</y>
       <width>89</width>
       <height>25</height>
      </rect>

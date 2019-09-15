@@ -1,6 +1,9 @@
+#include <QtWidgets/QTableWidgetItem>
 #include "mainwindow.h"
+#include "nrzi.h"
 #include "ui_mainwindow.h"
 
+MainWindow* MainWindow::hammingWindow = nullptr;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,12 +19,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui -> tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     Changed=1;
     //ui -> label_3->setStyleSheet("QLabel { background-color : grey; color : black; }");
-
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+MainWindow* MainWindow::getInstance() {
+    if (!hammingWindow) {
+        hammingWindow = new MainWindow;
+    }
+    return hammingWindow;
 }
 
 
@@ -72,24 +81,24 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
     int c=0;
     int preError=-1;
     for (int i=0;i<5;i++){
-        qDebug()<<"$$$"<<pares[i];
+        //qDebug()<<"$$$"<<pares[i];
     }
-    qDebug()<<column;
+    //qDebug()<<column;
     for (int i=0;i<17;i++){
-        qDebug()<<"READING"<<i<<c;
+        //qDebug()<<"READING"<<i<<c;
         if (i==column){
             if (i==pares[c]){
-                qDebug()<<"CHANGED PARITY"<<column;
+                //qDebug()<<"CHANGED PARITY"<<column;
                 ui ->label_3->setText("El error se identifica en las posición"+QString::number(i));
                 preError=i;
                 c++;
             }
             else if (actualInput.at(i-c)=='1'){
-                qDebug()<<"CHANGED TO 0"<<column;
+                //qDebug()<<"CHANGED TO 0"<<column;
                 newinput+='0';
             }
             else{
-                qDebug()<<"CHANGED TO 1"<<column;
+                //qDebug()<<"CHANGED TO 1"<<column;
                 newinput+='1';
             }
             continue;
@@ -101,7 +110,7 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
            newinput+=actualInput.at(i-c);
         }
     }
-    qDebug()<<newinput;
+    //qDebug()<<newinput;
 
     Hamming::firstLine(newinput);
     Hamming::completeLines();
@@ -152,4 +161,18 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
                           +"\nEntonces el error se identifica en la posición "+QString::number(error));
 
     Changed=1;
+}
+
+void MainWindow::toNRZIWindow(){
+    nrzi* nrziWindow = nrzi::getInstance();
+    nrziWindow->show();
+}
+
+void MainWindow::on_returnToNRZI_clicked(){
+    toNRZIWindow();
+    hide();
+}
+
+void MainWindow::setBin(string bin) {
+    ui->lineEdit->setText(QString::fromStdString(bin));
 }

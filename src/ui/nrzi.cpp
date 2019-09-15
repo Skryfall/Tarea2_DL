@@ -3,6 +3,7 @@
 #include "nrzi.h"
 #include "ui_nrzi.h"
 #include "hamming.h"
+#include "mainwindow.h"
 
 
 using namespace std;
@@ -106,7 +107,7 @@ void nrzi::paintEvent(QPaintEvent* event){
 }
 
 void nrzi::toHammingWindow(){
-    hamming* hammingWindow = hamming::getInstance();
+    MainWindow* hammingWindow = MainWindow::getInstance();
     hammingWindow->show();
 }
 
@@ -123,7 +124,9 @@ void nrzi::on_readyButton_clicked(){
         bin = converter->hexABin(converter->hex, converter->bin);
         if (strlen(bin) != 0){
             string sbin(bin);
-            ui->binaryLabel->setText(QString::fromStdString(sbin));
+            MainWindow* mainWindow = MainWindow::getInstance();
+            mainWindow->setBin(sbin);
+            ui->binaryLabel->setText(QString::fromStdString(sbin + "."));
             state = 1;
             update();
         }

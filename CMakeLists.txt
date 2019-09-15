@@ -10,6 +10,6 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Multimedia REQUIRED)
 
-add_executable(Tarea2_DL src/main.cpp src/ui/nrzi.cpp src/ui/nrzi.h src/ui/nrzi.ui src/ui/hamming.cpp src/ui/hamming.h src/ui/hamming.ui src/logic/Converter.cpp src/logic/Converter.h)
+add_executable(Tarea2_DL src/main.cpp src/ui/nrzi.cpp src/ui/nrzi.h src/ui/nrzi.ui src/ui/hamming.cpp src/ui/hamming.h src/logic/Converter.cpp src/logic/Converter.h src/ui/mainwindow.ui src/ui/mainwindow.cpp src/ui/mainwindow.h)
 
 target_link_libraries(Tarea2_DL Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia)
