@@ -173,6 +173,6 @@ void MainWindow::on_returnToNRZI_clicked(){
     hide();
 }
 
-void MainWindow::setBin(string bin) {
-    ui->lineEdit->setText(QString::fromStdString(bin));
+void MainWindow::setBin(char* bin) {
+    ui->lineEdit->setText(QString::fromUtf8(bin));
 }

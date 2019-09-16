@@ -14,6 +14,7 @@ class Converter {
 public:
     static Converter* getInstance();
     char* hexABin(char* hex, char* res);
+    int hexADec(char* hex);
     bool hex3Dig(string ent);
     char hex[3];
     char bin[12];

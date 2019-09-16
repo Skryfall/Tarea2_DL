@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStringList>
 #include <QDebug>
-#include "hamming.h"
+#include "../logic/hamming.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     static MainWindow* getInstance();
-    void setBin(string bin);
+    void setBin(char* bin);
 
 private slots:
     void on_pushButton_clicked();

@@ -2,7 +2,7 @@
 #include <QtWidgets>
 #include "nrzi.h"
 #include "ui_nrzi.h"
-#include "hamming.h"
+#include "../logic/hamming.h"
 #include "mainwindow.h"
 
 
@@ -122,11 +122,12 @@ void nrzi::on_readyButton_clicked(){
     if (converter->hex3Dig(hex)){
         strcpy(converter->hex,hex.c_str());
         bin = converter->hexABin(converter->hex, converter->bin);
-        if (strlen(bin) != 0){
-            string sbin(bin);
+        dec = converter->hexADec(converter->hex);
+        if (strlen(bin) != 0){;
             MainWindow* mainWindow = MainWindow::getInstance();
-            mainWindow->setBin(sbin);
-            ui->binaryLabel->setText(QString::fromStdString(sbin + "."));
+            mainWindow->setBin(bin);
+            ui->binaryLabel->setText(QString::fromUtf8(bin));
+            ui->decimalLabel->setText(QString::number(dec));
             state = 1;
             update();
         }

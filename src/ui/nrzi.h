@@ -30,6 +30,7 @@ private:
     Converter* converter = Converter::getInstance();
     int state = 0;
     char* bin;
+    int dec;
     int binArray[12];
     QLabel* bitArray[12];
 
