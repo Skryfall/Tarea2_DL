@@ -1,7 +1,6 @@
-#include <QtWidgets/QTableWidgetItem>
 #include "mainwindow.h"
-#include "nrzi.h"
 #include "ui_mainwindow.h"
+#include "nrzi.h"
 
 MainWindow* MainWindow::hammingWindow = nullptr;
 
@@ -19,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui -> tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     Changed=1;
     //ui -> label_3->setStyleSheet("QLabel { background-color : grey; color : black; }");
+
 }
 
 MainWindow::~MainWindow()
@@ -32,7 +32,6 @@ MainWindow* MainWindow::getInstance() {
     }
     return hammingWindow;
 }
-
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -77,28 +76,29 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
         return;
     }
     QString newinput;
+    QString newinputHamming;
     int* pares=Hamming::getPares();
     int c=0;
     int preError=-1;
     for (int i=0;i<5;i++){
         //qDebug()<<"$$$"<<pares[i];
     }
-    //qDebug()<<column;
+   // qDebug()<<column;
     for (int i=0;i<17;i++){
-        //qDebug()<<"READING"<<i<<c;
+     //   qDebug()<<"READING"<<i<<c;
         if (i==column){
             if (i==pares[c]){
-                //qDebug()<<"CHANGED PARITY"<<column;
+       //         qDebug()<<"CHANGED PARITY"<<column;
                 ui ->label_3->setText("El error se identifica en las posición"+QString::number(i));
                 preError=i;
                 c++;
             }
             else if (actualInput.at(i-c)=='1'){
-                //qDebug()<<"CHANGED TO 0"<<column;
+         //       qDebug()<<"CHANGED TO 0"<<column;
                 newinput+='0';
             }
             else{
-                //qDebug()<<"CHANGED TO 1"<<column;
+         //       qDebug()<<"CHANGED TO 1"<<column;
                 newinput+='1';
             }
             continue;
@@ -110,28 +110,31 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
            newinput+=actualInput.at(i-c);
         }
     }
-    //qDebug()<<newinput;
+
+    for (int i=0;i<17;i++){
+        if (i==column){
+            if (Hamming::arr[6][i]==1){
+                 newinputHamming+='0';
+                }
+            else{
+                newinputHamming+='1';
+            }
+        }
+        else if (Hamming::arr[6][i]==0){
+                newinputHamming+='0';
+            }
+            else{
+                newinputHamming+='1';
+            }
+    }
+   // qDebug()<<newinput;
+   // qDebug()<<newinputHamming;
 
     Hamming::firstLine(newinput);
     Hamming::completeLines();
-    int* newParity=Hamming::getParity();
-    int error;
-    if (preError==-1){
-        error=Hamming::compareParity(actualParity,newParity);
-    }
-    else{
-        error=preError;
-        if (newParity[preError]==1){
-            newParity[preError]=0;
-        }
-        else{
-            newParity[preError]=1;
-        }
-    }
-    int* errorArray=Hamming::compareArray(actualParity,newParity);
-
+    Hamming::show();
     int i, j;
-    for (i = 0; i < filas; i++) {
+    for (i = 0; i < filas-1; i++) {
         for (j = 0; j < columnas; j++) {
           QTableWidgetItem *newItem;
           if (Hamming::arr[i][j]==1)
@@ -143,22 +146,30 @@ void MainWindow::on_tableWidget_cellDoubleClicked(int row, int column)
          ui -> tableWidget_2->setItem(i, j, newItem);
          }
     }
-
-
-    QString pariedad1;
-    QString pariedad2;
-    for (int i=0;i<5;i++){
-        pariedad1+=QString::number(actualParity[pares[4-i]]);
-        pariedad2+=QString::number(newParity[pares[4-i]]);
-        QTableWidgetItem *newItem=new QTableWidgetItem(QString::number(errorArray[i]));
-        ui -> tableWidget_2->setItem(i+1, 17, newItem);
+    for (j = 0; j < columnas; j++) {
+      QTableWidgetItem *newItem;
+      newItem= new QTableWidgetItem(newinputHamming.at(j));
+     ui -> tableWidget_2->setItem(i, j, newItem);
+     }
+    Hamming::findError(newinputHamming);
+   // qDebug()<<Hamming::LastParity<<Hamming::ActualParity;
+    for (int i=1;i<6;i++){
+        QTableWidgetItem *newItem;
+        if (Hamming::LastParity.at(i-1)==Hamming::ActualParity.at(i-1)){
+            newItem= new QTableWidgetItem("0");
+        }
+        else{
+            newItem= new QTableWidgetItem("1");
+        }
+        //qDebug()<<Hamming::LastParity.at(i-1)<<Hamming::ActualParity.at(i-1);
+        ui -> tableWidget_2->setItem(i, 17, newItem);
     }
 
 
 
-    ui ->label_3->setText("Pariedad inicial: "+pariedad1
-                          +"\n Pariedad modificada: "+pariedad2
-                          +"\nEntonces el error se identifica en la posición "+QString::number(error));
+    ui ->label_3->setText("Pariedad inicial: "+Hamming::LastParity
+                          +"\n Pariedad modificada: "+Hamming::ActualParity
+                          +"\nEntonces el error se identifica en la posición "+QString::number(Hamming::Error));
 
     Changed=1;
 }

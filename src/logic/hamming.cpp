@@ -3,6 +3,9 @@
 
 int Hamming::arr[filas][columnas]={};
 int Hamming::parity=0;
+QString Hamming::LastParity="";
+QString Hamming::ActualParity="";
+int Hamming::Error=0;
 
 void Hamming::init(int p,int valor)
 {
@@ -26,7 +29,7 @@ void Hamming::show()
          }
      //qDebug().noquote()<<line;
     }
-    //qDebug()<<"---------------------";
+   // qDebug()<<"---------------------";
 }
 
 bool Hamming::firstLine(QString input)
@@ -124,4 +127,48 @@ int *Hamming::compareArray(int *P1, int *P2)
        c++;
     }
     return errorArray;
+}
+
+int *Hamming::getFinal()
+{
+    int* final=new int[17];
+    for(int i=0;i<17;i++){
+       final[i]=arr[filas-1][i];
+    }
+    return final;
+}
+
+void Hamming::findError(QString input)
+{
+    bool bits[17];
+    QString lastParity;
+    QString lastParity2;
+    for (int i:paridad){
+        if (input.at(i)=='0'){
+            bits[i]=0;
+        }
+        else if (input.at(i)=='1'){
+            bits[i]=1;
+        }
+        else{
+            return;
+        }
+        lastParity+=QString::number(bits[i]);
+        lastParity2+=QString::number(arr[filas-1][i]);
+
+    }
+    int error=0;
+    int pot=0;
+    for(int i:paridad){
+       if (bits[i]!=arr[filas-1][i]){
+           error+=pow(2,pot);
+       }
+       pot++;
+    }
+   // qDebug()<<"ERROR"<<error;
+
+    Error= error;
+    LastParity= lastParity;
+    ActualParity=lastParity2;
+
 }

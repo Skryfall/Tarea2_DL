@@ -16,7 +16,11 @@ class Hamming
 {
 private:
     static int parity;
+
 public:
+    static QString LastParity;
+    static QString ActualParity;
+    static int Error;
     static int arr[filas][columnas];
     static Hamming& getInstance()
             {
@@ -32,6 +36,8 @@ public:
     static int compareParity(int* P1,int* P2);
     static int* getPares();
     static int* compareArray(int* P1,int* P2);
+    static int* getFinal();
+    static void findError(QString input);
 };
 
 #endif // HAMMING_H

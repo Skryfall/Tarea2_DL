@@ -16,9 +16,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public slots:
-    void toNRZIWindow();
-
 public:
     int* actualParity;
     QString actualInput;
@@ -27,6 +24,9 @@ public:
     ~MainWindow();
     static MainWindow* getInstance();
     void setBin(char* bin);
+
+public slots:
+    void toNRZIWindow();
 
 private slots:
     void on_pushButton_clicked();
